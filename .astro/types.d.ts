@@ -141,57 +141,26 @@ declare module 'astro:content' {
   slug: "guides/example";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".md"] };
-"guides/publication-how-it-works.mdx": {
-	id: "guides/publication-how-it-works.mdx";
-  slug: "guides/publication-how-it-works";
-  body: string;
-  collection: "docs";
-  data: InferEntrySchema<"docs">
-} & { render(): Render[".mdx"] };
 "index.mdx": {
 	id: "index.mdx";
   slug: "index";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "reference/example.md": {
 	id: "reference/example.md";
   slug: "reference/example";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".md"] };
-"reference/publication-api/client-libraries.mdx": {
-	id: "reference/publication-api/client-libraries.mdx";
-  slug: "reference/publication-api/client-libraries";
-  body: string;
-  collection: "docs";
-  data: InferEntrySchema<"docs">
-} & { render(): Render[".mdx"] };
-"reference/publication-api/creating-an-article-purchase-link.mdx": {
-	id: "reference/publication-api/creating-an-article-purchase-link.mdx";
-  slug: "reference/publication-api/creating-an-article-purchase-link";
-  body: string;
-  collection: "docs";
-  data: InferEntrySchema<"docs">
-} & { render(): Render[".mdx"] };
-"reference/publication-api/data-types.mdx": {
-	id: "reference/publication-api/data-types.mdx";
-  slug: "reference/publication-api/data-types";
-  body: string;
-  collection: "docs";
-  data: InferEntrySchema<"docs">
-} & { render(): Render[".mdx"] };
-"reference/publication-api/index.md": {
-	id: "reference/publication-api/index.md";
-  slug: "reference/publication-api";
-  body: string;
-  collection: "docs";
-  data: InferEntrySchema<"docs">
-} & { render(): Render[".md"] };
+};
+"guides": {
+};
+"reference": {
 };
 
 	};
