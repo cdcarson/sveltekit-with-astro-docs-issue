@@ -14,7 +14,7 @@
 		"test:integration": "playwright test",
 		"test:unit": "vitest",
 		"docs:dev": "astro dev",
-    "docs:build": "astro check && astro build"
+		"docs:build": "astro check && astro build"
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.7.0",
