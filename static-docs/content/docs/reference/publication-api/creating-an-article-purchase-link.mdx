@@ -1,0 +1,106 @@
+---
+title: Creating an Article Purchase Link
+description: How to create a secure link to a LinketySplit article purchase page.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
+
+Article purchase links are the main way a publication adds
+articles to the LinketySplit platform. Purchase links can be
+created ahead of time or on the fly, for say, offering custom
+article pricing in response to a particular reader or situation.
+
+## How Purchase Links Work
+
+<Steps>
+
+1. Your server / CMS  collects the data LinketySplit needs to display an article purchase page. 
+At the minimum, we need:
+
+    ```jsonc
+    {
+     
+      "url": "https://leralynntimes.com/dog-tells-all-in-man-bites-dog-kerfuffle",
+      "title": "Dog Tells All in Man Bites Dog Kerfuffle",
+      "excerpt": "Frieda the dog, flanked by her advisers, ipsum dolor sit amet consectetur adipisicing elit. Corporis, reiciendis animi quas error molestiae pariatur modi aliquam iste beatae quidem sed! Temporibus eos quod ducimus sapiente minima accusantium, hic a.",
+      "publishedAt": "2024-05-15T21:50:39+0000",
+      "pricingPlanId": "1234"
+      // See below for optional fields, including additional article metadata,
+      // purchase context and custom pricing.
+
+    }
+    ```
+  
+
+1. The server creates a <abbr>JWT</abbr> (JSON Web Token,) signed with the publication's API key. The signed JWT 
+is appended to the base purchase link URL:
+
+    ```
+    https://linketysplit.com/purchase-link/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaWVsZHMiOiJzZWUgZG9jdW1lbnRhdGlvbi4uIn0.Q1aRoVLMkDzzvhcXq0jamw75MX0nGuY9DcF-LeimWSY
+    |BASE URL --------------------------->|SIGNED JWT ------>>>>
+    ```
+
+    This is an **article purchase link**.
+
+1. You present the link to readers:
+
+    - inside your paywall, 
+    - as a "share this" link on the article page, 
+    - or in an email promotion, news alert, etc.
+
+1. A reader clicks on the link. 
+
+1. When LinketySplit receives a purchase link:
+    - We verify the JWT with your API key, ensuring it's coming from you.
+    - We add or update the data we have for the article from the data in the JWT.
+    - We display a purchase page to the reader.
+
+1. After the reader purchases access to the article, we redirect them 
+to the article's URL, with a `linketysplit` query parameter containing 
+an **access JWT**:
+
+    ```
+    https://leralynntimes.com/dog...kerfuffle?linketysplit=ACCESS_JWT
+    ```
+    
+    The access JWT is signed with the publication API key. That way, you can verify 
+    that it comes directly from us.
+
+     
+
+1. Your server checks for the presence of an **access JWT** in the URL search params. If 
+it exists and can be verified with your API key, the reader should be shown the full article.
+The access JWT contains user and purchase data you may use to greet the reader.
+</Steps>
+
+
+
+
+
+## Purchase Link Structure
+
+A purchase link looks like this: 
+
+```
+https://linketysplit.com/purchase-link/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaWVsZHMiOiJzZWUgZG9jdW1lbnRhdGlvbi4uIn0.Q1aRoVLMkDzzvhcXq0jamw75MX0nGuY9DcF-LeimWSY
+|BASE URL --------------------------->|YOUR SIGNED JWT ------>>>>
+```
+<div class="text-sm font-mono"><span>https://</span>linketysplit.com/purchase-link/<strong>signed.jwt.here</strong></div>
+
+
+## Purchase Link Data 
+
+- `url (required)` The permalink url of the article. Note that articles are 
+uniquely identified by this permalink, and no two articles can have the same permalink. 
+The url must be secure (begin with `https://`) and in "live" mode (see below) the url's 
+`host` must match one of the publication's verified (sub)domains.
+- `customOfferPricing (optional)`
+
+
+<Aside type="tip">
+  Note: This is a language-agnostic overview. We have [client
+  libraries](/reference/publication-api/client-libraries) for several
+  popular languages that can do much of this for you. If your site is WordPress,
+  checkout our <a href="/reference/publication-api/wordpress-plugin">plugin</a>.
+</Aside>
